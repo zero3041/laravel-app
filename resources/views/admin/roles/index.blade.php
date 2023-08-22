@@ -50,8 +50,8 @@
                                             </div>
                                         </td>
                                         <td class="status">
-                                            <a href="" style="text-decoration: none" class="btn btn-primary">Edit</a>
-                                            <a href="" style="text-decoration: none" class="btn btn-danger">Delete</a>
+                                            <a href="{{ route('roles.edit',['id'=>$role->id]) }}" style="text-decoration: none" class="btn btn-primary">Edit</a>
+                                            <a href="{{ route('roles.delete',['id'=>$role->id]) }}" style="text-decoration: none" class="btn btn-danger">Delete</a>
                                         </td>
 
                                         <td>
