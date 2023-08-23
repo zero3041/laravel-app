@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Traits\StorageImageTrait;
-use function Symfony\Component\HttpFoundation\Session\Storage\Handler\commit;
-use function Symfony\Component\HttpFoundation\Session\Storage\Handler\rollback;
 
 class AdminProductController extends Controller
 {
@@ -35,10 +33,19 @@ class AdminProductController extends Controller
         $this->productTag = $productTag;
     }
 
-    public function index(){
-        $products = $this->product->paginate(12);
-        return view('admin.product.index',compact('products'));
+    public function index(Request $request) {
+        if ($request->has('query')) {
+            $query = $request->input('query');
+            $products = Product::where('name', 'like', '%' . $query . '%')
+                ->orWhere('description', 'like', '%' . $query . '%')
+                ->paginate(10);
+        } else {
+            $products = Product::paginate(10);
+        }
+
+        return view('admin.product.index', compact('products'));
     }
+
 
     public function create(){
         $hmtlOptions =$this->getCategory($parent_Id = '');
@@ -73,7 +80,7 @@ class AdminProductController extends Controller
                 $dataProductCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
                 $dataProductCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
             }
-            $product = $this->product::create($dataProductCreate);
+            $product = $this->product->create($dataProductCreate);
 //        them nhieu file anh
             if ($request->hasFile('image_path')){
                 foreach ($request->image_path as $fileItem){
@@ -87,7 +94,7 @@ class AdminProductController extends Controller
 //      Them tags
             if(!empty($request->tags)){
                 foreach ($request->tags as $tagItem){
-                    $tagInstance = $this->tag::firstOrCreate(['name' => $tagItem]);
+                    $tagInstance = $this->tag->firstOrCreate(['name' => $tagItem]);
                     $tagId[] = $tagInstance['id'];
                 }
             }
@@ -147,7 +154,7 @@ class AdminProductController extends Controller
 //      Them tags
             if(!empty($request->tags)){
                 foreach ($request->tags as $tagItem){
-                    $tagInstance = $this->tag::firstOrCreate(['name' => $tagItem]);
+                    $tagInstance = $this->tag->firstOrCreate(['name' => $tagItem]);
                     $tagId[] = $tagInstance['id'];
                 }
             }
@@ -163,7 +170,7 @@ class AdminProductController extends Controller
         }
     }
 
-    public function delete($id) {
+    public function delete( $id ) {
         $product = Product::find($id);
 
         if (!$product) {

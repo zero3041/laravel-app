@@ -11,12 +11,20 @@
       <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+                <form action="{{ route('product.index') }}" method="get">
+                    @csrf
+                    <div class="input-group">
+                        <input type="text" name="query" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                        <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </span>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12">
                 <a href="{{ route('product.create') }}"class="btn btn-success float-right m-2">Add</a>
                 <button id="delete-selected" class="btn btn-danger">Xoá nhiều sản phẩm</button>
-
             </div>
-
-
         </div>
       </div>
     </div>
@@ -125,8 +133,8 @@
 
     </div>
     <div class="col-md-12">
-                {{$products->links('pagination::bootstrap-4')}}
-            </div>
+        {{ $products->appends(['query' => request()->input('query')])->links('pagination::bootstrap-4') }}
+    </div>
 </div>
 
 @endsection

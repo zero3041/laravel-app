@@ -34,6 +34,8 @@
                         <input type="text" placeholder="Name" name="name">
                         <input type="email" placeholder="Email" name="email">
                         <input type="password" placeholder="Password" name="password">
+                        <input type="password" placeholder="Re-enter Password" name="repassword">
+
                         <button type="submit" class="btn">Register</button>
                     </form>
                 </div>

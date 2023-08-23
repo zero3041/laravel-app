@@ -28,7 +28,11 @@
                         <li><a href="products">Products</a></li>
                         <li><a href="">About</a></li>
                         <li><a href="">Contact</a></li>
-                        <li><a href="login">Account</a></li>
+                        @if(Auth::guard('web')->check())
+                            <li><a href="">{{ Auth::guard('web')->user()->name }}</a></li>
+                        @else
+                            <li><a href="{{ route('login') }}">Account</a></li>
+                        @endif
                     </ul>
                 </nav>
                 <a href="cart.html"><img src="images/cart.png" width="30px" height="30px" alt=""></a>

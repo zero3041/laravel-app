@@ -27,11 +27,16 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:8',
+            'repassword' => 'required|min:8|same:password', // Đảm bảo repassword giống password
         ]);
 
         $validator['password'] = Hash::make($validator['password']);
 
-        $user = User::create($validator);
+        $user = User::create([
+            'name' => $validator['name'],
+            'email' => $validator['email'],
+            'password' => $validator['password'],
+        ]);
 
         Auth::login($user);
 

@@ -39,6 +39,7 @@ Route::prefix('admins')->group(function (){
         Route::get('/', [
             'as' => 'categories.index',
             'uses' => 'App\Http\Controllers\CategoryController@index',
+//            'middleware' => 'can:category-list',
         ]);
         Route::get('/create', [
             'as' => 'categories.create',
@@ -195,6 +196,10 @@ Route::prefix('admins')->group(function (){
         Route::post('/register',[
             'as' => 'logins.register',
             'uses' => 'App\Http\Controllers\AdminController@register'
+        ]);
+        Route::get('/logout',[
+            'as' => 'logins.logout',
+            'uses' => 'App\Http\Controllers\AdminController@logout'
         ]);
     });
 });

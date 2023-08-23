@@ -42,4 +42,9 @@ class AdminController extends Controller
 
         return redirect()->route('logins.login')->with('success','Registration successful! Please login');
     }
+
+    public function logout(){
+        Auth::guard('admin')->logout();
+        return redirect('/admins/login');
+    }
 }
