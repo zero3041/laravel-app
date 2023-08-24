@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +25,14 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::post('/add-to-cart', [ProductsController::class, 'add']);
 
-Route::get('/product-detail', [ProductsController::class, 'detail'])->name('detail');
+Route::post('/add-to-cart-detail', [ProductsController::class, 'addToCart']);
+
+Route::get('/product-detail/{id}', [ProductsController::class, 'detail'])->name('detail');
+
+Route::get('/cart', [CartController::class, 'index']);
+
+Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
 
 Route::get('/admins', function () {
     return view('admin.home');

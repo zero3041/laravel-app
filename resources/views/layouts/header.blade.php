@@ -18,7 +18,7 @@
                     @endif
                 </ul>
             </nav>
-            <a href="cart.html"><img src="images/cart.png" width="30px" height="30px" alt=""></a>
+            <a href="/cart"><img src="{{ asset('images/cart.png') }}" width="30px" height="30px" alt=""></a>
             <img src="images/menu.png" onclick="menutoggle()" class="menu-icon">
         </div>
     </div>

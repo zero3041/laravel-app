@@ -25,7 +25,8 @@ class ProductsController extends Controller
             $cart[$request->product_id] = [
                 'name' => $product->name,
                 'price' => $product->discounted_price,
-                'quantity' => 1
+                'quantity' => 1,
+                'feature_image_path' => $product->feature_image_path
             ];
         }
 
@@ -36,8 +37,28 @@ class ProductsController extends Controller
 
         return response()->json(['totalItems' => count($cart)]);
     }
+    public function addToCart(Request $request) {
+        $cart = session()->get('cart', []);
 
-    public function detail(){
-        return view('products.detail');
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity');
+
+        // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
+        if (isset($cart[$productId])) {
+            $cart[$productId] += $quantity;
+        } else {
+            // Nếu sản phẩm chưa tồn tại, thêm mới
+            $cart[$productId] = $quantity;
+        }
+
+        session()->put('cart', $cart);
+
+        return response()->json(['status' => 'success']);
+    }
+
+
+    public function detail($id){
+        $product = Product::find($id);
+        return view('products.detail',compact('product'));
     }
 }
