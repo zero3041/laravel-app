@@ -140,7 +140,7 @@ class AdminProductController extends Controller
             $this->product->find($id)->update($dataProductUpdate);
             $product = $this->product->find($id);
 
-//        them nhieu file anh
+//        add images
             if ($request->hasFile('image_path')){
                 $this->productImage->where('product_id', $id)->delete();
                 foreach ($request->image_path as $fileItem){
@@ -151,7 +151,7 @@ class AdminProductController extends Controller
                     ]);
                 }
             }
-//      Them tags
+//      Add tags
             if(!empty($request->tags)){
                 foreach ($request->tags as $tagItem){
                     $tagInstance = $this->tag->firstOrCreate(['name' => $tagItem]);

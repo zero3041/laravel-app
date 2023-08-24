@@ -22,8 +22,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('category-list',function ($admin) {
-//            dd($admin);
+        $this->registerPolicies();
+        Gate::define('category-list',function ($user) {
+            dd($user);
         });
     }
 }

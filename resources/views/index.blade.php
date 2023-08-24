@@ -30,6 +30,7 @@
                         <li><a href="">Contact</a></li>
                         @if(Auth::guard('web')->check())
                             <li><a href="">{{ Auth::guard('web')->user()->name }}</a></li>
+                            <li><a href="{{ route('logout') }}">Logout</a></li>
                         @else
                             <li><a href="{{ route('login') }}">Account</a></li>
                         @endif

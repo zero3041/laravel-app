@@ -10,24 +10,21 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProductController;
 
 
-Route::get('products',[
-    ProductsController::class,
-    'index'
-]);
+Route::get('products',[ProductsController::class,'index']);
 
-Route::get('/',[
-    PagesController::class,
-    'index'
-]);
+Route::get('/',[PagesController::class,'index']);
 
-Route::get('/login',[
-    LoginController::class,
-    'login'
-])->name('login');
+Route::get('/login',[LoginController::class,'login'])->name('login');
 
 Route::post('/login', [UserController::class, 'login']);
 
 Route::post('/register', [UserController::class, 'register']);
+
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
+Route::post('/add-to-cart', [ProductsController::class, 'add']);
+
+Route::get('/product-detail', [ProductsController::class, 'detail'])->name('detail');
 
 Route::get('/admins', function () {
     return view('admin.home');

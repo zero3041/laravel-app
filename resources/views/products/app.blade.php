@@ -2,9 +2,10 @@
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <title>Add to Cart Interaction Example</title>
+    <title>Add to Cart</title>
     <link rel="stylesheet" href="../../css/styles.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    @yield('css')
 </head>
 <body>
 <!-- partial:index.partial.html -->

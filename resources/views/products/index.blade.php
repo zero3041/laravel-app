@@ -1,719 +1,122 @@
 @extends('products.app')
+@section('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+@endsection
 
 @section('content')
 
 <div id="grid">
-    <div class="product">
-        <div class="info-large">
-            <h4>FLUTED HEM DRESS</h4>
-            <div class="sku">
-                PRODUCT SKU: <strong>89356</strong>
+    {{ $products->links("vendor.pagination.bootstrap-4") }}
+    @foreach( $products as $productItem )
+        <div class="product">
+
+            <!-- Default checked -->
+
+            <div class="info-large">
+                <h4>{{ $productItem->name }}</h4>
+                <div class="sku">
+                    PRODUCT SKU: <strong>{{ $productItem->sku }}</strong>
+                </div>
+
+                <div class="price-big">
+                    <span>${{ $productItem->original_price }}</span> ${{ $productItem->discounted_price }}
+                </div>
+
+                <h3>COLORS</h3>
+                <div class="colors-large">
+                    <ul>
+                        <li><a href="" style="background:#222"><span></span></a></li>
+                        <li><a href="" style="background:#6e8cd5"><span></span></a></li>
+                        <li><a href="" style="background:#f56060"><span></span></a></li>
+                        <li><a href="" style="background:#44c28d"><span></span></a></li>
+                    </ul>
+                </div>
+
+                <h3>SIZE</h3>
+                <div class="sizes-large">
+                    <span>XS</span>
+                    <span>S</span>
+                    <span>M</span>
+                    <span>L</span>
+                    <span>XL</span>
+                    <span>XXL</span>
+                </div>
+
+                <button class="add-cart-large">Add To Cart</button>
+
             </div>
-
-            <div class="price-big">
-                <span>$43</span> $39
-            </div>
-
-            <h3>COLORS</h3>
-            <div class="colors-large">
-                <ul>
-                    <li><a href="" style="background:#222"><span></span></a></li>
-                    <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                    <li><a href="" style="background:#f56060"><span></span></a></li>
-                    <li><a href="" style="background:#44c28d"><span></span></a></li>
-                </ul>
-            </div>
-
-            <h3>SIZE</h3>
-            <div class="sizes-large">
-                <span>XS</span>
-                <span>S</span>
-                <span>M</span>
-                <span>L</span>
-                <span>XL</span>
-                <span>XXL</span>
-            </div>
-
-            <button class="add-cart-large">Add To Cart</button>
-
-        </div>
-        <div class="make3D">
-            <div class="product-front">
-                <div class="shadow"></div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div class="add_to_cart">Add to cart</div>
-                <div class="view_gallery">View gallery</div>
-                <div class="stats">
-                    <div class="stats-container">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">FLUTED HEM DRESS</span>
-                        <p>Summer dress</p>
-
-                        <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
+            <div class="make3D">
+                <div class="product-front">
+                    <div class="shadow"></div>
+                    <img src="{{ $productItem->feature_image_path }}" alt="" />
+                    <div class="image_overlay"></div>
+                    <div data-product-id="{{ $productItem->id }}" class="add_to_cart add-to-cart-btn">Add to cart</div>
+                    <div class="view_gallery">View</div>
+                    <div class="stats" >
+                        <div class="stats-container" style="width: 100%;">
+                            <span class="product_price">${{ $productItem->discounted_price }}</span>
+                            <span class="product_name">{{ $productItem->name }}</span>
+                            <p>{{ $productItem->description }}</p>
+                            <div class="product-options">
+                                <strong>SIZES</strong>
+                                <span>{{ $productItem->sizes }}</span>
+                                <strong>COLORS</strong>
+                                <div class="colors">
+                                    <div class="c-blue"><span></span></div>
+                                    <div class="c-red"><span></span></div>
+                                    <div class="c-white"><span></span></div>
+                                    <div class="c-green"><span></span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="product-back">
-                <div class="shadow"></div>
-                <div class="carousel">
-                    <ul class="carousel-container">
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3.jpg" alt="" /></li>
-                    </ul>
-                    <div class="arrows-perspective">
-                        <div class="carouselPrev">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                        <div class="carouselNext">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-back">
-                    <div class="cy"></div>
-                    <div class="cx"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="product">
-        <div class="info-large">
-            <h4>PLEAT PRINTED DRESS</h4>
-            <div class="sku">
-                PRODUCT SKU: <strong>89356</strong>
-            </div>
-
-            <div class="price-big">
-                <span>$43</span> $39
-            </div>
-
-            <h3>COLORS</h3>
-            <div class="colors-large">
-                <ul>
-                    <li><a href="" style="background:#222"><span></span></a></li>
-                    <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                    <li><a href="" style="background:#f56060"><span></span></a></li>
-                    <li><a href="" style="background:#44c28d"><span></span></a></li>
-                </ul>
-            </div>
-
-            <h3>SIZE</h3>
-            <div class="sizes-large">
-                <span>XS</span>
-                <span>S</span>
-                <span>M</span>
-                <span>L</span>
-                <span>XL</span>
-                <span>XXL</span>
-            </div>
-
-            <button class="add-cart-large">Add To Cart</button>
-
-        </div>
-        <div class="make3D">
-            <div class="product-front">
-                <div class="shadow"></div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div class="add_to_cart">Add to cart</div>
-                <div class="view_gallery">View gallery</div>
-                <div class="stats">
-                    <div class="stats-container">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">PLEAT PRINTED DRESS</span>
-                        <p>Summer dress</p>
-
-                        <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
+                <div class="product-back">
+                    <div class="shadow"></div>
+                    <div class="carousel">
+                        <ul class="carousel-container">
+                            @foreach( $productItem->images as $image )
+                                <li><img src="{{ $image->image_path }}" alt="" /></li>
+                            @endforeach
+                        </ul>
+                        <div class="arrows-perspective">
+                            <div class="carouselPrev">
+                                <div class="y"></div>
+                                <div class="x"></div>
+                            </div>
+                            <div class="carouselNext">
+                                <div class="y"></div>
+                                <div class="x"></div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="product-back">
-                <div class="shadow"></div>
-                <div class="carousel">
-                    <ul class="carousel-container">
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/2.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4.jpg" alt="" /></li>
-                    </ul>
-                    <div class="arrows-perspective">
-                        <div class="carouselPrev">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                        <div class="carouselNext">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-back">
-                    <div class="cy"></div>
-                    <div class="cx"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="product">
-        <div class="info-large">
-            <h4>FLOWY SHIRT DRESS</h4>
-            <div class="sku">
-                PRODUCT SKU: <strong>89356</strong>
-            </div>
-
-            <div class="price-big">
-                <span>$43</span> $39
-            </div>
-
-            <h3>COLORS</h3>
-            <div class="colors-large">
-                <ul>
-                    <li><a href="" style="background:#222"><span></span></a></li>
-                    <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                    <li><a href="" style="background:#f56060"><span></span></a></li>
-                    <li><a href="" style="background:#44c28d"><span></span></a></li>
-                </ul>
-            </div>
-
-            <h3>SIZE</h3>
-            <div class="sizes-large">
-                <span>XS</span>
-                <span>S</span>
-                <span>M</span>
-                <span>L</span>
-                <span>XL</span>
-                <span>XXL</span>
-            </div>
-
-            <button class="add-cart-large">Add To Cart</button>
-
-        </div>
-        <div class="make3D">
-            <div class="product-front">
-                <div class="shadow"></div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div class="add_to_cart">Add to cart</div>
-                <div class="view_gallery">View gallery</div>
-                <div class="stats">
-                    <div class="stats-container">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">FLOWY SHIRT DRESS</span>
-                        <p>Summer dress</p>
-
-                        <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
-                            </div>
-                        </div>
+                    <div class="flip-back">
+                        <div class="cy"></div>
+                        <div class="cx"></div>
                     </div>
                 </div>
             </div>
-
-            <div class="product-back">
-                <div class="shadow"></div>
-                <div class="carousel">
-                    <ul class="carousel-container">
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/3.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1.jpg" alt="" /></li>
-                    </ul>
-                    <div class="arrows-perspective">
-                        <div class="carouselPrev">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                        <div class="carouselNext">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-back">
-                    <div class="cy"></div>
-                    <div class="cx"></div>
-                </div>
-            </div>
         </div>
-    </div>
+    @endforeach
 
-
-    <div class="product">
-        <div class="info-large">
-            <h4>DOUBLE LAYER DRESS</h4>
-            <div class="sku">
-                PRODUCT SKU: <strong>89356</strong>
-            </div>
-
-            <div class="price-big">
-                <span>$43</span> $39
-            </div>
-
-            <h3>COLORS</h3>
-            <div class="colors-large">
-                <ul>
-                    <li><a href="" style="background:#222"><span></span></a></li>
-                    <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                    <li><a href="" style="background:#f56060"><span></span></a></li>
-                    <li><a href="" style="background:#44c28d"><span></span></a></li>
-                </ul>
-            </div>
-
-            <h3>SIZE</h3>
-            <div class="sizes-large">
-                <span>XS</span>
-                <span>S</span>
-                <span>M</span>
-                <span>L</span>
-                <span>XL</span>
-                <span>XXL</span>
-            </div>
-
-            <button class="add-cart-large">Add To Cart</button>
-
-        </div>
-        <div class="make3D">
-            <div class="product-front">
-                <div class="shadow"></div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div class="add_to_cart">Add to cart</div>
-                <div class="view_gallery">View gallery</div>
-                <div class="stats">
-                    <div class="stats-container">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">DOUBLE LAYER DRESS</span>
-                        <p>Summer dress</p>
-
-                        <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-back">
-                <div class="shadow"></div>
-                <div class="carousel">
-                    <ul class="carousel-container">
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/6.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/7.jpg" alt="" /></li>
-                    </ul>
-                    <div class="arrows-perspective">
-                        <div class="carouselPrev">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                        <div class="carouselNext">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-back">
-                    <div class="cy"></div>
-                    <div class="cx"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="product">
-        <div class="info-large">
-            <h4>BEAD DETAIL DRESS</h4>
-            <div class="sku">
-                PRODUCT SKU: <strong>89356</strong>
-            </div>
-
-            <div class="price-big">
-                <span>$43</span> $39
-            </div>
-
-            <h3>COLORS</h3>
-            <div class="colors-large">
-                <ul>
-                    <li><a href="" style="background:#222"><span></span></a></li>
-                    <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                    <li><a href="" style="background:#f56060"><span></span></a></li>
-                    <li><a href="" style="background:#44c28d"><span></span></a></li>
-                </ul>
-            </div>
-
-            <h3>SIZE</h3>
-            <div class="sizes-large">
-                <span>XS</span>
-                <span>S</span>
-                <span>M</span>
-                <span>L</span>
-                <span>XL</span>
-                <span>XXL</span>
-            </div>
-
-            <button class="add-cart-large">Add To Cart</button>
-
-        </div>
-        <div class="make3D">
-            <div class="product-front">
-                <div class="shadow"></div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div class="add_to_cart">Add to cart</div>
-                <div class="view_gallery">View gallery</div>
-                <div class="stats">
-                    <div class="stats-container">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">BEAD DETAIL DRESS</span>
-                        <p>Summer dress</p>
-
-                        <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-back">
-                <div class="shadow"></div>
-                <div class="carousel">
-                    <ul class="carousel-container">
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/7.jpg" alt="" /></li>
-                    </ul>
-                    <div class="arrows-perspective">
-                        <div class="carouselPrev">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                        <div class="carouselNext">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-back">
-                    <div class="cy"></div>
-                    <div class="cx"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="product">
-        <div class="info-large">
-            <h4>PLEATED DETAIL DRESS</h4>
-            <div class="sku">
-                PRODUCT SKU: <strong>89356</strong>
-            </div>
-
-            <div class="price-big">
-                <span>$43</span> $39
-            </div>
-
-            <h3>COLORS</h3>
-            <div class="colors-large">
-                <ul>
-                    <li><a href="" style="background:#222"><span></span></a></li>
-                    <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                    <li><a href="" style="background:#9b887b"><span></span></a></li>
-                    <li><a href="" style="background:#44c28d"><span></span></a></li>
-                </ul>
-            </div>
-
-            <h3>SIZE</h3>
-            <div class="sizes-large">
-                <span>XS</span>
-                <span>S</span>
-                <span>M</span>
-                <span>L</span>
-                <span>XL</span>
-                <span>XXL</span>
-            </div>
-
-            <button class="add-cart-large">Add To Cart</button>
-
-        </div>
-        <div class="make3D">
-            <div class="product-front">
-                <div class="shadow"></div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/6.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div class="add_to_cart">Add to cart</div>
-                <div class="view_gallery">View gallery</div>
-                <div class="stats">
-                    <div class="stats-container">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">PLEATED DETAIL DRESS</span>
-                        <p>Summer dress</p>
-
-                        <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-back">
-                <div class="shadow"></div>
-                <div class="carousel">
-                    <ul class="carousel-container">
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/6.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/7.jpg" alt="" /></li>
-                    </ul>
-                    <div class="arrows-perspective">
-                        <div class="carouselPrev">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                        <div class="carouselNext">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-back">
-                    <div class="cy"></div>
-                    <div class="cx"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="product">
-        <div class="info-large">
-            <h4>PRINTED DRESS</h4>
-            <div class="sku">
-                PRODUCT SKU: <strong>89356</strong>
-            </div>
-
-            <div class="price-big">
-                <span>$43</span> $39
-            </div>
-
-            <h3>COLORS</h3>
-            <div class="colors-large">
-                <ul>
-                    <li><a href="" style="background:#222"><span></span></a></li>
-                    <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                    <li><a href="" style="background:#9b887b"><span></span></a></li>
-                    <li><a href="" style="background:#44c28d"><span></span></a></li>
-                </ul>
-            </div>
-
-            <h3>SIZE</h3>
-            <div class="sizes-large">
-                <span>XS</span>
-                <span>S</span>
-                <span>M</span>
-                <span>L</span>
-                <span>XL</span>
-                <span>XXL</span>
-            </div>
-
-            <button class="add-cart-large">Add To Cart</button>
-
-        </div>
-        <div class="make3D">
-            <div class="product-front">
-                <div class="shadow"></div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/7.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div class="add_to_cart">Add to cart</div>
-                <div class="view_gallery">View gallery</div>
-                <div class="stats">
-                    <div class="stats-container">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">PRINTED DRESS</span>
-                        <p>Summer dress</p>
-
-                        <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-back">
-                <div class="shadow"></div>
-                <div class="carousel">
-                    <ul class="carousel-container">
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/7.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/5.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/4.jpg" alt="" /></li>
-                    </ul>
-                    <div class="arrows-perspective">
-                        <div class="carouselPrev">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                        <div class="carouselNext">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-back">
-                    <div class="cy"></div>
-                    <div class="cx"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="product">
-        <div class="info-large">
-            <h4>PRINTED DRESS</h4>
-            <div class="sku">
-                PRODUCT SKU: <strong>89356</strong>
-            </div>
-
-            <div class="price-big">
-                <span>$43</span> $39
-            </div>
-
-            <h3>COLORS</h3>
-            <div class="colors-large">
-                <ul>
-                    <li><a href="" style="background:#222"><span></span></a></li>
-                    <li><a href="" style="background:#6e8cd5"><span></span></a></li>
-                    <li><a href="" style="background:#9b887b"><span></span></a></li>
-                    <li><a href="" style="background:#44c28d"><span></span></a></li>
-                </ul>
-            </div>
-
-            <h3>SIZE</h3>
-            <div class="sizes-large">
-                <span>XS</span>
-                <span>S</span>
-                <span>M</span>
-                <span>L</span>
-                <span>XL</span>
-                <span>XXL</span>
-            </div>
-
-            <button class="add-cart-large">Add To Cart</button>
-
-        </div>
-        <div class="make3D">
-            <div class="product-front">
-                <div class="shadow"></div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/8.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div class="add_to_cart">Add to cart</div>
-                <div class="view_gallery">View gallery</div>
-                <div class="stats">
-                    <div class="stats-container">
-                        <span class="product_price">$39</span>
-                        <span class="product_name">PRINTED DRESS</span>
-                        <p>Summer dress</p>
-
-                        <div class="product-options">
-                            <strong>SIZES</strong>
-                            <span>XS, S, M, L, XL, XXL</span>
-                            <strong>COLORS</strong>
-                            <div class="colors">
-                                <div class="c-blue"><span></span></div>
-                                <div class="c-red"><span></span></div>
-                                <div class="c-white"><span></span></div>
-                                <div class="c-green"><span></span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-back">
-                <div class="shadow"></div>
-                <div class="carousel">
-                    <ul class="carousel-container">
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/8.jpg" alt="" /></li>
-                        <li><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/7.jpg" alt="" /></li>
-                    </ul>
-                    <div class="arrows-perspective">
-                        <div class="carouselPrev">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                        <div class="carouselNext">
-                            <div class="y"></div>
-                            <div class="x"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flip-back">
-                    <div class="cy"></div>
-                    <div class="cx"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(".add-to-cart-btn").click(function(){
+        let productId =  $(this).data('product-id');
 
+        $.ajax({
+            url: '/add-to-cart',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $('#cart-quantity').text(response.totalItems);
+            }
+        });
+    });
+</script>
 @endsection

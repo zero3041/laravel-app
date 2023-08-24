@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -17,6 +18,9 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->intended('/');
         }
+
+        $cart = Cart::where('user_id', Auth::id())->pluck('quantity', 'product_id')->toArray();
+        session(['cart' => $cart]);
 
         return redirect()->back()->withError('error_login', 'Email or password is incorrect');
     }
@@ -42,6 +46,21 @@ class UserController extends Controller
 
         return redirect('/');
     }
+
+    public function logout(Request $request)
+    {
+        $cart = session('cart', []);
+        foreach ($cart as $productId => $details) {
+            Cart::updateOrCreate(
+                ['user_id' => Auth::id(), 'product_id' => $productId],
+                ['quantity' => $details['quantity']]
+            );
+        }
+
+        Auth::logout();
+        return redirect('/');
+    }
+
 
     public function index(){
         return view('admin.users.index');

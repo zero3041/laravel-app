@@ -28,13 +28,13 @@
         </div>
       </div>
     </div>
-    <div id="grid" style="padding-left: 170px !important;
-    width: 100% !important;
-    position: inherit !important;
-    left: 340px !important;
-    height: 1200px !important;
-    top: 180px !important;
-    ">
+    <div id="grid" style="  padding-left: 170px !important;
+                            width: 100% !important;
+                            position: inherit !important;
+                            left: 340px !important;
+                            height: 1200px !important;
+                            top: 180px !important;
+                            ">
         @foreach( $products as $productItem )
         <div class="product">
             <div class="custom-control custom-checkbox">
