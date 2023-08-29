@@ -92,5 +92,5 @@
         </ul>
     </div>
 
-    Showing 1–9 of 48 results
+    Showing 1-12 of {{ \App\Models\Product::count() }} results
 </div>

@@ -11,7 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProductController;
 
 
-Route::get('products',[ProductsController::class,'index']);
+Route::get('products',[ProductsController::class,'index'])->name('search');
 
 Route::get('/',[PagesController::class,'index']);
 

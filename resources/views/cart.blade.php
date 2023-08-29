@@ -11,7 +11,6 @@
             @php
                 $subtotal = 0;
             @endphp
-
             @foreach( $cart as $productId => $productDetails)
                 @php
                     $productTotal = $productDetails['price'] * $productDetails['quantity'];

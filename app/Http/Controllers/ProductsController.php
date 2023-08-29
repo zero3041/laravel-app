@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 //Hello World
 class ProductsController extends Controller
 {
-    public function index(){
-        $products = Product::paginate(12);
+    public function index(Request $request){
         $cart = session('cart', []);
         $product_cart = Product::whereIn('id', array_keys($cart))->get();
+        if ($request->has('query')) {
+            $query = $request->input('query');
+            $products = Product::where('name', 'like', '%' . $query . '%')
+                ->orWhere('description', 'like', '%' . $query . '%')
+                ->paginate(12);
+        } else {
+            $products = Product::paginate(12);
+        }
+//        session()->flush();
         return view('products.index',compact('products','product_cart'));
     }
 
@@ -43,18 +51,32 @@ class ProductsController extends Controller
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity');
 
+        // Giả sử bạn có hàm getProductDetails() để lấy chi tiết sản phẩm
+        $productDetails = $this->getProductDetails($productId);
+
         // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
         if (isset($cart[$productId])) {
-            $cart[$productId] += $quantity;
+            $cart[$productId]['quantity'] += $quantity;
         } else {
             // Nếu sản phẩm chưa tồn tại, thêm mới
-            $cart[$productId] = $quantity;
+            $productDetails['quantity'] = $quantity;
+            $cart[$productId] = $productDetails;
         }
 
         session()->put('cart', $cart);
 
         return response()->json(['status' => 'success']);
     }
+    public function getProductDetails($productId) {
+        $product = Product::find($productId);
+
+        return $product ? [
+            'name' => $product->name,
+            'price' => $product->price,
+            'feature_image_path' => $product->feature_image_path,
+        ] : [];
+    }
+
 
 
     public function detail($id){

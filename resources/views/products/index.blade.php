@@ -8,10 +8,14 @@
 <div id="grid">
     {{ $products->links("vendor.pagination.bootstrap-4") }}
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Button</button>
-        </div>
+        <form action="{{ route('search')}}" method="get">
+            @csrf
+            <input type="text" name="query" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div   class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Button</button>
+            </div>
+        </form>
+
     </div>
     @foreach( $products as $productItem )
         <div class="product">
@@ -48,20 +52,22 @@
                     <span>XXL</span>
                 </div>
 
-                <button class="add-cart-large">Add To Cart</button>
+                <button data-product-id="{{ $productItem->id }}" class="add-cart-large">Add To Cart</button>
 
             </div>
             <div class="make3D">
                 <div class="product-front">
                     <div class="shadow"></div>
                     <img src="{{ $productItem->feature_image_path }}" alt="" />
-                    <div class="image_overlay"></div>
+                    <a href="{{ route('detail',['id'=>$productItem->id]) }}">
+                        <div class="image_overlay"></div>
+                    </a>
                     <div data-product-id="{{ $productItem->id }}" class="add_to_cart add-to-cart-btn">Add to cart</div>
                     <div class="view_gallery">View</div>
                     <div class="stats" >
                         <div class="stats-container" style="width: 100%;">
                             <span class="product_price">${{ $productItem->discounted_price }}</span>
-                            <span class="product_name">{{ $productItem->name }}</span>
+                            <a href="{{ route('detail',['id'=>$productItem->id]) }}"><span class="product_name">{{ $productItem->name }}</span></a>
                             <p>{{ $productItem->description }}</p>
                             <div class="product-options">
                                 <strong>SIZES</strong>
@@ -110,6 +116,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(".add-to-cart-btn").click(function(){
+        let productId =  $(this).data('product-id');
+
+        $.ajax({
+            url: '/add-to-cart',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $('#cart-quantity').text(response.totalItems);
+            }
+        });
+    });
+    $(".add-cart-large").click(function(){
         let productId =  $(this).data('product-id');
 
         $.ajax({

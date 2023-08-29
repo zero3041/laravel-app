@@ -36,8 +36,8 @@
                         @endif
                     </ul>
                 </nav>
-                <a href="cart.html"><img src="images/cart.png" width="30px" height="30px" alt=""></a>
-                <img src="images/menu.png" onclick="menutoggle()" class="menu-icon">
+                <a href="/cart"><img src="images/cart.png" width="30px" height="30px" alt=""></a>
+                <img src="{{ asset('images/menu.png') }}" onclick="menutoggle()" class="menu-icon">
             </div>
             <div class="row">
                 <div class="col-2">
@@ -75,10 +75,11 @@
     <div class="small-container">
         <h2 class="title">Featured Product</h2>
         <div class="row">
+            @foreach ($product->take(4) as $products)
             <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
+                <a href="product-details.html"><img src="{{ $products->feature_image_path }}" alt=""></a>
                 <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
+                    <h4>{{ $products->name }}</h4>
                 </a>
                 <div class="rating">
                     <i class="fa fa-star"></i>
@@ -87,168 +88,32 @@
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star-o"></i>
                 </div>
-                <p>250 000 đ</p>
+                <p>{{ $products->discounted_price }}$</p>
             </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
+            @endforeach
         </div>
         <h2 class="title">Latest Product</h2>
-        <div class="row">
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
+        @php
+            $randomCount = min(12, $product->count());
+        @endphp
+            <div class="row">
+                @foreach ($product->random($randomCount) as $products)
+                <div class="col-4">
+                    <a href="product-details.html"><img src="{{ $products->feature_image_path }}" alt=""></a>
+                    <a href="product-details.html">
+                        <h4>{{ $products->name }}</h4>
+                    </a>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <p>{{ $products->discounted_price }}$</p>
                 </div>
-                <p>250 000 đ</p>
+             @endforeach
             </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-            <div class="col-4">
-                <a href="product-details.html"><img src="images/product-1.jpg" alt=""></a>
-                <a href="product-details.html">
-                    <h4>Áo đỏ lịch lãm</h4>
-                </a>
-                <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                </div>
-                <p>250 000 đ</p>
-            </div>
-        </div>
     </div>
     <!-- offer -->
 
@@ -380,7 +245,7 @@
                 </div>
             </div>
             <hr>
-            <p class="copyright">Copyright 2022 - By Nhom 8 61TH2</p>
+            <p class="copyright">Copyright 2022 - By Push</p>
         </div>
     </div>
     <!-- js -->

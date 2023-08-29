@@ -16,12 +16,10 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            $cart = Cart::where('user_id', Auth::id())->pluck('quantity', 'product_id')->toArray();
+            session()->put('cart', $cart);
             return redirect()->intended('/');
         }
-
-        $cart = Cart::where('user_id', Auth::id())->pluck('quantity', 'product_id')->toArray();
-        session(['cart' => $cart]);
-
         return redirect()->back()->withError('error_login', 'Email or password is incorrect');
     }
     public function register(Request $request)
@@ -50,13 +48,16 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $cart = session('cart', []);
-        foreach ($cart as $productId => $details) {
-            Cart::updateOrCreate(
-                ['user_id' => Auth::id(), 'product_id' => $productId],
-                ['quantity' => $details['quantity']]
-            );
-        }
 
+        foreach ($cart as $productId => $details) {
+            if (is_array($details) && isset($details['quantity'])) {
+                Cart::updateOrCreate(
+                    ['user_id' => Auth::id(), 'product_id' => $productId],
+                    ['quantity' => $details['quantity']]
+                );
+            }
+        }
+        session()->flush();
         Auth::logout();
         return redirect('/');
     }
