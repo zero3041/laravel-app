@@ -18,6 +18,26 @@ class ProductsController extends Controller
         } else {
             $products = Product::paginate(12);
         }
+
+        if ($request->has('sort_by')) {
+            $query = Product::query();
+            switch ($request->sort_by) {
+                case 'name':
+                    $query->orderBy('name');
+                    break;
+                case 'discounted_price':
+                    $query->orderBy('discounted_price');
+                    break;
+                default:
+                    // Sắp xếp mặc định nếu cần
+                    $query->orderBy('created_at', 'desc');
+            }
+            $products = $query->paginate(12)->appends(['sort_by' => $request->sort_by]);
+//            dd($query);
+        }
+
+//        $products = ['products'=> $products];
+
 //        session()->flush();
         return view('products.index',compact('products','product_cart'));
     }

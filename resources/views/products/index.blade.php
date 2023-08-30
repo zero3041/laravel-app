@@ -7,14 +7,27 @@
 
 <div id="grid">
     {{ $products->links("vendor.pagination.bootstrap-4") }}
-    <div class="input-group mb-3">
-        <form action="{{ route('search')}}" method="get">
+    <div class="input-group mb-3 row justify-content-end">
+        <form class="col-md-3 input-group" action="{{ route('search') }}" method="get">
             @csrf
             <input type="text" name="query" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div   class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Button</button>
+                <button class="btn btn-outline-secondary" type="submit">Button</button>
             </div>
         </form>
+
+        <form method="get" action="{{ route('search') }}" class="input-group col-md-2 justify-content-end ">
+            @csrf
+            <select name="sort_by" class="custom-select" id="inputGroupSelect04">
+                <option selected>Soft</option>
+                <option value="name">Sort by name</option>
+                <option value="discounted_price">Sort by price</option>
+            </select>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Soft</button>
+            </div>
+        </form>
+
 
     </div>
     @foreach( $products as $productItem )
