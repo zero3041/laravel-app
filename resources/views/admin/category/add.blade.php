@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="content-wrapper">
+<div id="" class="content-wrapper">
     <!-- Content Header (Page header) -->
     @include('admin.partials.content-header',['name'=>'Category','key'=>'Add'])
     <!-- /.content-header -->

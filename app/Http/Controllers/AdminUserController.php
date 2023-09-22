@@ -20,8 +20,7 @@ class AdminUserController extends Controller
     }
 
     public function index(){
-        $user = $this->user->paginate(5);
-        return view('admin.users.index',compact('user'));
+        return User::all();
     }
 
     public function create(){

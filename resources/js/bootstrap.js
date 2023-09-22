@@ -30,3 +30,43 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+import {createApp} from 'vue'
+import {
+    Modal,
+    Upload,
+    Checkbox ,
+    Input,
+    Select,
+    Avatar,
+    Table,
+    Card,
+    Menu ,
+    List,
+    Drawer,
+    Button,
+    message
+} from 'ant-design-vue';
+import router from './router/index'
+
+import App from './App.vue'
+
+const app = createApp(App)
+
+app.use(router)
+
+app.use(Button);
+app.use(Modal);
+app.use(Upload);
+app.use(Checkbox);
+app.use(Input);
+app.use(Select);
+app.use(Avatar);
+app.use(Card);
+app.use(Drawer);
+app.use(List);
+app.use(Menu );
+app.use(Table);
+
+app.mount('#app')
+
+// app.config.globalProperties.$message = message;

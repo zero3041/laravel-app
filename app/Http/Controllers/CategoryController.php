@@ -24,8 +24,14 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = $this -> category -> paginate(5);
-        return view('admin.category.index',compact('categories'));
+        $categories = $this -> category ->get();
+        return view('layouts.admin');
+    }
+
+    public function show()
+    {
+        $categories = $this -> category ->get();
+        return $categories;
     }
 
     public function store(Request $request){

@@ -103,4 +103,8 @@ class ProductsController extends Controller
         $product = Product::find($id);
         return view('products.detail',compact('product'));
     }
+
+    public function add_product(Request $request){
+
+    }
 }

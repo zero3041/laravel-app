@@ -29,7 +29,7 @@ class ProductAddRequest extends FormRequest
             'description' => 'required',
             'sizes' => 'required',
             'colors' => 'required',
-            'category_id' => 'required',
+//            'category_id' => 'required',
             'content' => ''
         ];
     }
@@ -45,7 +45,7 @@ class ProductAddRequest extends FormRequest
             'description.required' => 'Mô tả không được để trống',
             'sizes.required' => 'Size không được để trống',
             'colors.required' => 'Màu không được để trống',
-            'category_id.required' => 'Danh mục không được để trống',
+//            'category_id.required' => 'Danh mục không được để trống',
             'content.required' => ''
         ];
     }

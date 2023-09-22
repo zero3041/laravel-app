@@ -35,16 +35,14 @@ Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->nam
 
 
 Route::get('/admins', function () {
-    return view('admin.home');
+    return view('layouts.admin');
 });
 
 Route::prefix('admins')->group(function (){
-
     Route::prefix('categories')->group(function () {
         Route::get('/', [
             'as' => 'categories.index',
             'uses' => 'App\Http\Controllers\CategoryController@index',
-//            'middleware' => 'can:category-list',
         ]);
         Route::get('/create', [
             'as' => 'categories.create',

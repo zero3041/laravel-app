@@ -8,7 +8,7 @@
 
 <div class="content-wrapper">
     @include('admin.partials.content-header',['name' => 'Category','key' => 'List'])
-    <div class="content">
+    <div id="app" class="content">
       <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -45,4 +45,5 @@
     </div>
 </div>
 
+@vite('resources/css/app.css')
 @endsection

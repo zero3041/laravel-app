@@ -15,11 +15,17 @@ class AdminController extends Controller
     }
 
     public function login(Request $request){
-        $credentials = $request->only('username', 'password');
+        $credentials = $request->only('email', 'password');
         if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect()->intended('/admins');
+            return response()->json([
+                'status'=>true,
+                'message'=>"Success"
+            ]);
         }
-        return redirect()->back()->withError('error_login', 'Email or password is incorrect');
+        return  response()->json([
+            'status'=>false,
+            'message'=>"Fail"
+        ]);
     }
 
     public function registerAdmin(){
@@ -41,6 +47,10 @@ class AdminController extends Controller
         Admin::create($validator);
 
         return redirect()->route('logins.login')->with('success','Registration successful! Please login');
+    }
+
+    public function store(Request $request){
+
     }
 
     public function logout(){
