@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+
 class ProductAddRequest extends FormRequest
 {
     /**
@@ -33,6 +34,7 @@ class ProductAddRequest extends FormRequest
             'content' => ''
         ];
     }
+
     public function messages()
     {
         return [

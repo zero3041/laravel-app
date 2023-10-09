@@ -2,109 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
-//Hello World
+
 class ProductsController extends Controller
 {
-    public function index(Request $request){
+    private $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
+    public function index(Request $request)
+    {
         $cart = session('cart', []);
-        $product_cart = Product::whereIn('id', array_keys($cart))->get();
+        $product_cart = $this->productService->getProductDetails(array_keys($cart));
+
         if ($request->has('query')) {
             $query = $request->input('query');
-            $products = Product::where('name', 'like', '%' . $query . '%')
-                ->orWhere('description', 'like', '%' . $query . '%')
-                ->paginate(12);
+            $products = $this->productService->searchProducts($query);
         } else {
-            $products = Product::paginate(12);
+            $products = $this->productService->getAllProducts();
         }
 
         if ($request->has('sort_by')) {
-            $query = Product::query();
-            switch ($request->sort_by) {
-                case 'name':
-                    $query->orderBy('name');
-                    break;
-                case 'discounted_price':
-                    $query->orderBy('discounted_price');
-                    break;
-                default:
-                    // Sắp xếp mặc định nếu cần
-                    $query->orderBy('created_at', 'desc');
-            }
-            $products = $query->paginate(12)->appends(['sort_by' => $request->sort_by]);
-//            dd($query);
+            $sortBy = $request->input('sort_by');
+            $products = $this->productService->sortProducts($sortBy);
         }
 
-//        $products = ['products'=> $products];
-
-//        session()->flush();
-        return view('products.index',compact('products','product_cart'));
+        return view('products.index', compact('products', 'product_cart'));
     }
 
     public function add(Request $request)
     {
-        $product = Product::find($request->product_id);
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity');
+
+        // Đảm bảo $productId và $quantity là hợp lệ
+
         $cart = session()->get('cart', []);
-//        dd($product);
-        if (isset($cart[$request->product_id])) {
-            $cart[$request->product_id]['quantity'] += 1;
+
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity'] += $quantity;
         } else {
-            $cart[$request->product_id] = [
-                'name' => $product->name,
-                'price' => $product->discounted_price,
-                'quantity' => 1,
-                'feature_image_path' => $product->feature_image_path
+            $productDetails = $this->productService->getProductDetails($productId);
+
+            if (!$productDetails) {
+                return response()->json(['error' => 'Product not found'], 404);
+            }
+
+            $cart[$productId] = [
+                'name' => $productDetails->name,
+                'price' => $productDetails->discounted_price,
+                'quantity' => $quantity,
+                'feature_image_path' => $productDetails->feature_image_path,
             ];
         }
 
         session()->put('cart', $cart);
 
-//        session()->flush();
-//        dd(session('cart'));
-
         return response()->json(['totalItems' => count($cart)]);
     }
-    public function addToCart(Request $request) {
-        $cart = session()->get('cart', []);
 
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity');
+    public function detail($id)
+    {
+        $product = $this->productService->getProductDetails($id);
 
-        // Giả sử bạn có hàm getProductDetails() để lấy chi tiết sản phẩm
-        $productDetails = $this->getProductDetails($productId);
-
-        // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
-        if (isset($cart[$productId])) {
-            $cart[$productId]['quantity'] += $quantity;
-        } else {
-            // Nếu sản phẩm chưa tồn tại, thêm mới
-            $productDetails['quantity'] = $quantity;
-            $cart[$productId] = $productDetails;
+        if (!$product) {
+            return abort(404);
         }
 
-        session()->put('cart', $cart);
-
-        return response()->json(['status' => 'success']);
-    }
-    public function getProductDetails($productId) {
-        $product = Product::find($productId);
-
-        return $product ? [
-            'name' => $product->name,
-            'price' => $product->price,
-            'feature_image_path' => $product->feature_image_path,
-        ] : [];
+        return view('products.detail', compact('product'));
     }
 
-
-
-    public function detail($id){
-        $product = Product::find($id);
-        return view('products.detail',compact('product'));
-    }
-
-    public function add_product(Request $request){
-
+    public function add_product(Request $request)
+    {
+        //
     }
 }

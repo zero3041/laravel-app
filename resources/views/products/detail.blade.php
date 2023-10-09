@@ -42,8 +42,7 @@
         function menutoggle() {
             if (MenuItems.style.maxHeight == "0px") {
                 MenuItems.style.maxHeight = "200px";
-            }
-            else {
+            } else {
                 MenuItems.style.maxHeight = "0px";
             }
         }
@@ -56,24 +55,26 @@
 
         var SmallImg = document.getElementsByClassName("small-img");
 
-        SmallImg[0].onclick = function(){
+        SmallImg[0].onclick = function () {
             ProductImg.src = SmallImg[0].src;
         }
-        SmallImg[1].onclick = function(){
+        SmallImg[1].onclick = function () {
             ProductImg.src = SmallImg[1].src;
         }
-        SmallImg[2].onclick = function(){
+        SmallImg[2].onclick = function () {
             ProductImg.src = SmallImg[2].src;
         }
-        SmallImg[3].onclick = function(){
+        SmallImg[3].onclick = function () {
             ProductImg.src = SmallImg[3].src;
         }
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+            integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        $(document).ready(function() {
-            $('.add-to-cart-btn').on('click', function() {
+        $(document).ready(function () {
+            $('.add-to-cart-btn').on('click', function () {
                 var productId = $(this).data('product-id');
                 var quantity = $('input[type="number"]').val();
 
@@ -86,13 +87,13 @@
                         quantity: quantity,
                         _token: "{{ csrf_token() }}"  // Thêm token cho bảo mật
                     },
-                    success: function(response) {
+                    success: function (response) {
                         // Xử lý sau khi thêm thành công
-                        alert('Product added to cart successfully!');
+                        alert('Đã thêm vào giỏ hàng!');
                     },
-                    error: function(error) {
+                    error: function (error) {
                         // Xử lý lỗi
-                        alert('There was an error. Please try again.');
+                        alert('Đã xảy ra lỗi vui lòng thử lại');
                     }
                 });
             });

@@ -17,9 +17,7 @@ use App\Http\Controllers\ProductsController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    $image = $request->name;
-    // file_put_contents('dfdv-fdfdf/image1.jpg', $image);
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -30,6 +28,10 @@ Route::get('users',[AdminUserController::class,'index']);
 Route::get('products',[AdminProductController::class,'index']);
 
 Route::post('login',[AdminController::class,'login']);
+
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::post('details', [AdminController::class,'details']);
+});
 
 Route::post('create',[AdminProductController::class,'add']);
 

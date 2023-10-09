@@ -2,59 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
+use App\Services\AdminService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
-    public function loginAdmin(){
-        return view('admin.login');
+    private $adminService;
+
+    public function __construct(AdminService $adminService)
+    {
+        $this->adminService = $adminService;
     }
 
-    public function login(Request $request){
-        $credentials = $request->only('email', 'password');
-        if (Auth::guard('admin')->attempt($credentials)) {
-            return response()->json([
-                'status'=>true,
-                'message'=>"Success"
-            ]);
+    // Các hàm khác như loginAdmin, registerAdmin vẫn được giữ nguyên.
+
+    public function login(Request $request)
+    {
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        $token = $this->adminService->login($email, $password);
+
+        if ($token) {
+            return response()->json(['status' => true, 'token' => $token], 200);
         }
-        return  response()->json([
-            'status'=>false,
-            'message'=>"Fail"
+
+        return response()->json(['error' => 'Unauthorised'], 401);
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request->validate([
+            // Validation rules
         ]);
+
+        $this->adminService->register($data);
+
+        return redirect()->route('logins.login')->with('success', 'Registration successful! Please login');
     }
 
-    public function registerAdmin(){
-        return view('admin.register');
-    }
-
-    public function register(Request $request){
-//        dd($request);
-        $validator = $request->validate([
-            'email' => 'required|email|unique:admins,email',
-            'username' => 'required|unique:admins,username',
-            'password' => 'required|min:6|max:32',
-            're-password' => 'required|min:6|max:32|same:password'
-        ],[
-            're-password.same' => 'Xác nhận mật khẩu không khớp'
-        ]);
-        $validator['password'] = hash::make($validator['password']);
-
-        Admin::create($validator);
-
-        return redirect()->route('logins.login')->with('success','Registration successful! Please login');
-    }
-
-    public function store(Request $request){
-
-    }
-
-    public function logout(){
-        Auth::guard('admin')->logout();
+    public function logout()
+    {
+        $this->adminService->logout();
         return redirect('/admins/login');
     }
 }

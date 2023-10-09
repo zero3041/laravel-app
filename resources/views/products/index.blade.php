@@ -6,8 +6,9 @@
 @section('content')
 
 <div id="grid">
-    {{ $products->links("vendor.pagination.bootstrap-4") }}
+
     <div class="input-group mb-3 row justify-content-end">
+
         <form class="col-md-3 input-group" action="{{ route('search') }}" method="get">
             @csrf
             <input type="text" name="query" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -30,7 +31,11 @@
 
 
     </div>
+
     @foreach( $products as $productItem )
+        <div>
+
+
         <div class="product">
 
             <!-- Default checked -->
@@ -123,9 +128,14 @@
                 </div>
             </div>
         </div>
+        </div>
     @endforeach
-
+    <div style="margin-top:50px !important" class="input-group mb-3 row justify-content-center">
+        {{ $products->links("vendor.pagination.bootstrap-4")}}
+    </div>
 </div>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(".add-to-cart-btn").click(function(){

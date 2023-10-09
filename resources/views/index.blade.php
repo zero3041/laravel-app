@@ -77,8 +77,8 @@
         <div class="row">
             @foreach ($product->take(4) as $products)
             <div class="col-4">
-                <a href="product-details.html"><img src="{{ $products->feature_image_path }}" alt=""></a>
-                <a href="product-details.html">
+                <a href="{{ route('detail',['id'=>$products->id]) }}"><img src="{{ $products->feature_image_path }}" alt=""></a>
+                <a href="{{ route('detail',['id'=>$products->id]) }}">
                     <h4>{{ $products->name }}</h4>
                 </a>
                 <div class="rating">
@@ -99,8 +99,8 @@
             <div class="row">
                 @foreach ($product->random($randomCount) as $products)
                 <div class="col-4">
-                    <a href="product-details.html"><img src="{{ $products->feature_image_path }}" alt=""></a>
-                    <a href="product-details.html">
+                    <a href="{{ route('detail',['id'=>$products->id]) }}"><img src="{{ $products->feature_image_path }}" alt=""></a>
+                    <a href="{{ route('detail',['id'=>$products->id]) }}">
                         <h4>{{ $products->name }}</h4>
                     </a>
                     <div class="rating">
