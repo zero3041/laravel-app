@@ -17,7 +17,8 @@ class MenuController extends Controller
         $this->menu = $menu;
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 //        $itemsPerPage = $request->get('items_per_page', 10);
 //        $menus = $this->menu->paginate($itemsPerPage);
 //        return view('admin.menus.index', compact('menus'));
@@ -33,13 +34,15 @@ class MenuController extends Controller
         return view('admin.menus.index', compact('menus'));
     }
 
-    public function create(){
+    public function create()
+    {
         $optionSelect = $this->menuRecusive->menuRecusiveAdd();
-        return view('admin.menus.add',compact('optionSelect'));
+        return view('admin.menus.add', compact('optionSelect'));
         dd($optionSelect);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $this->menu->create([
             'name' => $request->name,
             'parent_id' => $request->parent_id,
@@ -48,22 +51,25 @@ class MenuController extends Controller
         return redirect()->route('menus.index');
     }
 
-    public function edit($id, Request $request){
+    public function edit($id, Request $request)
+    {
         $menuFollowIdEdit = $this->menu->find($id);
         $optionSelect = $this->menuRecusive->menuRecusiveEdit($menuFollowIdEdit->parent_id);
-        return view('admin.menus.edit',compact('optionSelect', 'menuFollowIdEdit'));
+        return view('admin.menus.edit', compact('optionSelect', 'menuFollowIdEdit'));
     }
 
-    public function update($id, Request $request){
+    public function update($id, Request $request)
+    {
         $this->menu->find($id)->update([
-           'name' => $request->name,
+            'name' => $request->name,
             'parent_id' => $request->parent_id,
             'slug' => str::slug($request->name)
         ]);
         return redirect()->route('menus.index');
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $this->menu->find($id)->delete();
         return redirect()->route('menus.index');
     }

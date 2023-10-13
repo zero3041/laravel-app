@@ -18,6 +18,7 @@ class PasswordResetController extends Controller
     {
         return view('admin.reset-password');
     }
+
     public function sendResetLinkEmail(Request $request)
     {
         // Validate email
@@ -64,12 +65,13 @@ class PasswordResetController extends Controller
         $admin->password = Hash::make($request->password);
         $admin->save();
 
-        DB::table('password_resets')->where(['email'=> $request->email])->delete();
+        DB::table('password_resets')->where(['email' => $request->email])->delete();
 
         return redirect('/logins')->with(['message' => 'Password has been reset successfully!']);
     }
 
-    public function showResetFormPass(Request $request, $token = null){
+    public function showResetFormPass(Request $request, $token = null)
+    {
         return view('auth.passwords.reset', ['token' => $token, 'email' => $request->email]);
     }
 }

@@ -22,6 +22,7 @@ class UserController extends Controller
         }
         return redirect()->back()->withError('error_login', 'Email or password is incorrect');
     }
+
     public function register(Request $request)
     {
 
@@ -63,7 +64,8 @@ class UserController extends Controller
     }
 
 
-    public function index(){
+    public function index()
+    {
         return view('admin.users.index');
     }
 }

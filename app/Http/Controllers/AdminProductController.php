@@ -19,12 +19,14 @@ use App\Traits\StorageImageTrait;
 class AdminProductController extends Controller
 {
     use StorageImageTrait;
+
     private $category;
     private $product;
     private $productImage;
     private $tag;
     private $productTag;
-    public function __construct(Category $category, Product $product, ProductImage $productImage,Tag $tag, ProductTag $productTag)
+
+    public function __construct(Category $category, Product $product, ProductImage $productImage, Tag $tag, ProductTag $productTag)
     {
         $this->category = $category;
         $this->product = $product;
@@ -33,31 +35,35 @@ class AdminProductController extends Controller
         $this->productTag = $productTag;
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
 //        $products = product->get()
         return Product::get();
     }
 
 
-    public function create(){
-        $hmtlOptions =$this->getCategory($parent_Id = '');
-        return view('admin.product.add',compact('hmtlOptions'));
+    public function create()
+    {
+        $hmtlOptions = $this->getCategory($parent_Id = '');
+        return view('admin.product.add', compact('hmtlOptions'));
     }
 
-    public function getCategory($parent_Id){
+    public function getCategory($parent_Id)
+    {
         $data = $this->category->All();
         $recusive = new Recusive($data);
         $hmtlOptions = $recusive->CategoriesShow($parent_Id);
         return $hmtlOptions;
     }
 
-    public function store(ProductAddRequest $request){
+    public function store(ProductAddRequest $request)
+    {
         try {
             DB::beginTransaction();
             $dataProductCreate = [
                 'name' => $request->name,
                 'sku' => $request->sku,
-                'original_price' =>$request->original_price,
+                'original_price' => $request->original_price,
                 'discounted_price' => $request->discounted_price,
                 'description' => $request->description,
                 'sizes' => $request->sizes,
@@ -67,16 +73,16 @@ class AdminProductController extends Controller
                 'content' => 'chua update'
             ];
 //        them anh dai dien
-            $dataUploadFeatureImage = $this->storagetraitUpload($request,'feature_image_path', 'product' );
-            if (!empty($dataUploadFeatureImage)){
+            $dataUploadFeatureImage = $this->storagetraitUpload($request, 'feature_image_path', 'product');
+            if (!empty($dataUploadFeatureImage)) {
                 $dataProductCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
                 $dataProductCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
             }
             $product = $this->product->create($dataProductCreate);
 //        them nhieu file anh
-            if ($request->hasFile('image_path')){
-                foreach ($request->image_path as $fileItem){
-                    $dataProductImageDetail = $this->storagetraitUploadMutiple($fileItem,'product');
+            if ($request->hasFile('image_path')) {
+                foreach ($request->image_path as $fileItem) {
+                    $dataProductImageDetail = $this->storagetraitUploadMutiple($fileItem, 'product');
                     $product->images()->create([
                         'image_path' => $dataProductImageDetail['file_path'],
                         'image_name' => $dataProductImageDetail['file_name']
@@ -84,8 +90,8 @@ class AdminProductController extends Controller
                 }
             }
 //      Them tags
-            if(!empty($request->tags)){
-                foreach ($request->tags as $tagItem){
+            if (!empty($request->tags)) {
+                foreach ($request->tags as $tagItem) {
                     $tagInstance = $this->tag->firstOrCreate(['name' => $tagItem]);
                     $tagId[] = $tagInstance['id'];
                 }
@@ -96,30 +102,31 @@ class AdminProductController extends Controller
             DB::commit();
 
             return response()->json([
-               "status" => true
+                "status" => true
             ]);
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollback();
-            \Log::error('Message: ' .$exception->getMessage() . 'Line ' . $exception->getLine() );
-            return response()->json ([
+            \Log::error('Message: ' . $exception->getMessage() . 'Line ' . $exception->getLine());
+            return response()->json([
                 "status" => false
             ]);
         }
     }
 
-    public function add(Request $request){
-        try{
+    public function add(Request $request)
+    {
+        try {
             DB::beginTransaction();
             $dataProductCreate = [
                 'name' => 'Test',
                 'sku' => $request->sku,
-                'original_price' =>$request->original_price,
+                'original_price' => $request->original_price,
                 'discounted_price' => $request->discounted_price,
                 'description' => $request->description,
                 'sizes' => $request->sizes,
                 'colors' => $request->colors,
-                'user_id' =>1,
-                'category_id'=> 1,
+                'user_id' => 1,
+                'category_id' => 1,
                 'content' => 'chua update'
 
             ];
@@ -136,46 +143,47 @@ class AdminProductController extends Controller
                 $imageType = $explodeImage[1];
                 $image_base64 = base64_decode($base64Image[1]);
                 $file = $folderPath . Str::random(20) . '.' . $imageType;
-                $dataProductCreate['feature_image_path'] = '/'.$file;
+                $dataProductCreate['feature_image_path'] = '/' . $file;
                 file_put_contents($file, $image_base64);
             }
 
             $product = $this->product->create($dataProductCreate);
             DB::commit();
             return response()->json([
-                'status'=>true,
-                'message'=>"Successfully created"
+                'status' => true,
+                'message' => "Successfully created"
             ]);
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollback();
-            \Log::error('Message: ' .$exception->getMessage() . 'Line ' . $exception->getLine() );
-            return response()->json ([
+            \Log::error('Message: ' . $exception->getMessage() . 'Line ' . $exception->getLine());
+            return response()->json([
                 "status" => false,
-                'message'=>"Failed"
+                'message' => "Failed"
             ]);
         }
 
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $product = $this->product->find($id);
         return $product;
     }
 
-    public function update(Request $request, $id){
-        try{
+    public function update(Request $request, $id)
+    {
+        try {
             DB::beginTransaction();
             $dataProductUpdate = [
                 'name' => $request->name,
                 'sku' => $request->sku,
-                'original_price' =>$request->original_price,
+                'original_price' => $request->original_price,
                 'discounted_price' => $request->discounted_price,
                 'description' => $request->description,
                 'sizes' => $request->sizes,
                 'colors' => $request->colors,
-                'user_id' =>1,
-                'category_id'=> 1,
+                'user_id' => 1,
+                'category_id' => 1,
                 'content' => 'chua update'
 
             ];
@@ -192,7 +200,7 @@ class AdminProductController extends Controller
                 $imageType = $explodeImage[1];
                 $image_base64 = base64_decode($base64Image[1]);
                 $file = $folderPath . Str::random(20) . '.' . $imageType;
-                $dataProductCreate['feature_image_path'] = '/'.$file;
+                $dataProductCreate['feature_image_path'] = '/' . $file;
                 file_put_contents($file, $image_base64);
             }
 
@@ -200,16 +208,15 @@ class AdminProductController extends Controller
 //            die();
             DB::commit();
             return response()->json([
-                'status'=>true,
-                'message'=>"Success"
+                'status' => true,
+                'message' => "Success"
             ]);
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollback();
-            \Log::error('Message: ' .$exception->getMessage() . 'Line ' . $exception->getLine() );
-            return response()->json ([
+            \Log::error('Message: ' . $exception->getMessage() . 'Line ' . $exception->getLine());
+            return response()->json([
                 "status" => false,
-                'message'=>"Failed"
+                'message' => "Failed"
             ]);
         }
     }
@@ -268,7 +275,8 @@ class AdminProductController extends Controller
 //        }
 //    }
 
-    public function delete( $id ) {
+    public function delete($id)
+    {
         $product = Product::find($id);
 
         if (!$product) {
@@ -277,17 +285,18 @@ class AdminProductController extends Controller
 
         $product->delete();
 
-        return response()->json(['status' => true,  'message' => 'Đã xoá thành công']);
+        return response()->json(['status' => true, 'message' => 'Đã xoá thành công']);
     }
 
-    public function deleteMultiple(Request $request) {
+    public function deleteMultiple(Request $request)
+    {
         $productIds = $request->input('products');
 
         if (!empty($productIds)) {
             Product::destroy($productIds);
         }
 
-        return response()->json(['status' => true,  'message' => 'Đã xoá thành công']);
+        return response()->json(['status' => true, 'message' => 'Đã xoá thành công']);
     }
 
 }
