@@ -17,13 +17,6 @@ class CategoryController extends Controller
         $this->category = $category;
     }
 
-    public function create($parent_Id = '')
-    {
-        $hmtlOptions = $this->getCategory(0);
-        return view('admin.category.add', compact('hmtlOptions'));
-    }
-
-
     public function index()
     {
         $categories = $this->category->get();
@@ -44,6 +37,12 @@ class CategoryController extends Controller
             'slug' => str::slug($request->name),
         ]);
         return redirect()->route('categories.index');
+    }
+
+    public function create($parent_Id = '')
+    {
+        $hmtlOptions = $this->getCategory(0);
+        return view('admin.category.add', compact('hmtlOptions'));
     }
 
     public function getCategory($parent_Id)

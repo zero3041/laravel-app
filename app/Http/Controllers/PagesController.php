@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $product = Product::all();
-        return view('index',compact('product'));
+        return view('index', compact('product'));
     }
 }

@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $cart = session()->get('cart', []);
         return view('cart', ['cart' => $cart]);
     }
-    public function removeFromCart(Request $request) {
+
+    public function removeFromCart(Request $request)
+    {
         $productId = $request->input('product_id');
 
         $cart = session()->get('cart', []);

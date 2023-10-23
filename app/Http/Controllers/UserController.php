@@ -12,17 +12,6 @@ use Symfony\Component\HttpFoundation\InputBag;
 
 class UserController extends Controller
 {
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            $cart = Cart::where('user_id', Auth::id())->pluck('quantity', 'product_id')->toArray();
-            session()->put('cart', $cart);
-            return redirect()->intended('/');
-        }
-        return redirect()->back()->withError('error_login', 'Email or password is incorrect');
-    }
-
     public function register(Request $request)
     {
 
@@ -44,6 +33,17 @@ class UserController extends Controller
         Auth::login($user);
 
         return redirect('/');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $cart = Cart::where('user_id', Auth::id())->pluck('quantity', 'product_id')->toArray();
+            session()->put('cart', $cart);
+            return redirect()->intended('/');
+        }
+        return redirect()->back()->withError('error_login', 'Email or password is incorrect');
     }
 
     public function logout(Request $request)

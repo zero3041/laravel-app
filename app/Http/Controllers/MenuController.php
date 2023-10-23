@@ -34,13 +34,6 @@ class MenuController extends Controller
         return view('admin.menus.index', compact('menus'));
     }
 
-    public function create()
-    {
-        $optionSelect = $this->menuRecusive->menuRecusiveAdd();
-        return view('admin.menus.add', compact('optionSelect'));
-        dd($optionSelect);
-    }
-
     public function store(Request $request)
     {
         $this->menu->create([
@@ -49,6 +42,13 @@ class MenuController extends Controller
             'slug' => str::slug($request->name)
         ]);
         return redirect()->route('menus.index');
+    }
+
+    public function create()
+    {
+        $optionSelect = $this->menuRecusive->menuRecusiveAdd();
+        return view('admin.menus.add', compact('optionSelect'));
+        dd($optionSelect);
     }
 
     public function edit($id, Request $request)

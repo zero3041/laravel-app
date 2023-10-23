@@ -23,12 +23,6 @@ class RoleController extends Controller
         return view('admin.roles.index', compact('roles'));
     }
 
-    public function create()
-    {
-        $permissionsParent = $this->permission->where('parent_id', 0)->get();
-        return view('admin.roles.add', compact('permissionsParent'));
-    }
-
     public function store(Request $request)
     {
         $role = $this->role->create([
@@ -38,6 +32,12 @@ class RoleController extends Controller
 
         $role->permissions()->attach($request->permission_id);
         return redirect()->route('roles.index');
+    }
+
+    public function create()
+    {
+        $permissionsParent = $this->permission->where('parent_id', 0)->get();
+        return view('admin.roles.add', compact('permissionsParent'));
     }
 
     public function edit($id)

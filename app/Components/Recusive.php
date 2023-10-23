@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Components;
 
 use App\Models\Category;
@@ -7,6 +8,7 @@ class Recusive
 {
     private $data;
     private $htmlSelect = '';
+
     public function __construct($data)
     {
         $this->data = $data;
@@ -16,11 +18,11 @@ class Recusive
     {
         foreach ($this->data as $value) {
             if ($value['parent_id'] == $id) {
-                if(!empty($parent_Id) && $parent_Id == $value['id'] ) {
+                if (!empty($parent_Id) && $parent_Id == $value['id']) {
                     $this->htmlSelect .=
-                                "<option selected value='" . $value['id'] . "'>" . $text . $value['name'] . '</option>';
+                        "<option selected value='" . $value['id'] . "'>" . $text . $value['name'] . '</option>';
                     $this->CategoriesShow($parent_Id, $value['id'], $text . '--');
-                }else {
+                } else {
                     $this->htmlSelect .= "<option value='" . $value['id'] . "'>" . $text . $value['name'] . '</option>';
                 }
                 $this->CategoriesShow($parent_Id, $value['id'], $text . '--');
@@ -28,7 +30,6 @@ class Recusive
         }
         return $this->htmlSelect;
     }
-
 
 
 }

@@ -41,21 +41,6 @@ class AdminProductController extends Controller
         return Product::get();
     }
 
-
-    public function create()
-    {
-        $hmtlOptions = $this->getCategory($parent_Id = '');
-        return view('admin.product.add', compact('hmtlOptions'));
-    }
-
-    public function getCategory($parent_Id)
-    {
-        $data = $this->category->All();
-        $recusive = new Recusive($data);
-        $hmtlOptions = $recusive->CategoriesShow($parent_Id);
-        return $hmtlOptions;
-    }
-
     public function store(ProductAddRequest $request)
     {
         try {
@@ -111,6 +96,20 @@ class AdminProductController extends Controller
                 "status" => false
             ]);
         }
+    }
+
+    public function create()
+    {
+        $hmtlOptions = $this->getCategory($parent_Id = '');
+        return view('admin.product.add', compact('hmtlOptions'));
+    }
+
+    public function getCategory($parent_Id)
+    {
+        $data = $this->category->All();
+        $recusive = new Recusive($data);
+        $hmtlOptions = $recusive->CategoriesShow($parent_Id);
+        return $hmtlOptions;
     }
 
     public function add(Request $request)
